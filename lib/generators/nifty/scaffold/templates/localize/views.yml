@@ -1,0 +1,13 @@
+# copy/rename this file to your locale and fill in the blanks (you may need to look at en files)
+# add generated files to i18n load path by adding the following line to config/application.rb:
+# config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+
+lang: # <--- don't forget to change this
+  view:
+    new:
+    show:
+    edit:
+    destroy:
+    view_all:
+    back_to_list:
+    are_you_sure:

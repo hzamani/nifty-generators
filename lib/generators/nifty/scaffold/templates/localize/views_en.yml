@@ -1,0 +1,9 @@
+en:
+  view:
+    new: New
+    show: Show
+    edit: Edit
+    destroy: Destroy
+    view_all: View All
+    back_to_list: Back to List
+    are_you_sure: Are You Sure?

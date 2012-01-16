@@ -18,6 +18,7 @@ module Nifty
       class_option :invert, :desc => 'Generate all controller actions except these mentioned.', :type => :boolean
       class_option :namespace_model, :desc => 'If the resource is namespaced, include the model in the namespace.', :type => :boolean
       class_option :haml, :desc => 'Generate HAML views instead of ERB.', :type => :boolean
+      class_option :localize, :desc => 'Generate localization frindly views.', :type => :boolean
 
       class_option :testunit, :desc => 'Use test/unit for test files.', :group => 'Test framework', :type => :boolean
       class_option :rspec, :desc => 'Use RSpec for test files.', :group => 'Test framework', :type => :boolean
@@ -96,12 +97,16 @@ module Nifty
 
           controller_actions.each do |action|
             if %w[index show new edit].include?(action) # Actions with templates
-              template "views/#{view_language}/#{action}.html.#{view_language}", "app/views/#{plural_name}/#{action}.html.#{view_language}"
+              create_view action
             end
           end
 
           if form_partial?
-            template "views/#{view_language}/_form.html.#{view_language}", "app/views/#{plural_name}/_form.html.#{view_language}"
+            create_view "_form"
+          end
+          
+          if options.localize?
+            create_locales
           end
 
           namespaces = plural_name.split('/')
@@ -182,6 +187,21 @@ module Nifty
         controller_actions.map do |action|
           read_template("#{dir_name}/#{action}.rb")
         end.join("\n").strip
+      end
+
+      def create_locales
+        template "localize/views_en.yml", "config/locales/views/en.yml"
+        template "localize/views.yml",    "config/locales/views/template.yml"
+        template "localize/model_en.yml", "config/locales/models/#{singular_name}/en.yml"
+        template "localize/model.yml",    "config/locales/models/#{singular_name}/template.yml"
+      end
+
+      def create_view(view)
+        if options.localize?
+          template "localize/views/#{view_language}/#{view}.html.#{view_language}", "app/views/#{plural_name}/#{view}.html.#{view_language}"
+        else
+          template "views/#{view_language}/#{view}.html.#{view_language}", "app/views/#{plural_name}/#{view}.html.#{view_language}"
+        end
       end
 
       def render_form

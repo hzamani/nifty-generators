@@ -1,0 +1,14 @@
+en:
+  view:
+    <%= singular_name %>:
+      new: New <%= singular_name.titleize %>
+      edit: Edit <%= singular_name.titleize %>
+  activerecord:
+    models:
+      <%= plural_name %>: <%= plural_name.titleize %>
+      <%= singular_name %>: <%= singular_name.titleize %>
+    attributes:
+      <%= singular_name %>:
+      <%- for attribute in model_attributes -%>
+        <%= attribute.name %>: <%= attribute.human_name.titleize %>
+      <%- end -%>

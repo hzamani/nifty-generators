@@ -1,0 +1,14 @@
+lang:
+  view:
+    <%= singular_name %>:
+      new:
+      edit:
+  activerecord:
+    models:
+      <%= plural_name %>:
+      <%= singular_name %>:
+    attributes:
+      <%= singular_name %>:
+      <%- for attribute in model_attributes -%>
+        <%= attribute.name %>:
+      <%- end -%>

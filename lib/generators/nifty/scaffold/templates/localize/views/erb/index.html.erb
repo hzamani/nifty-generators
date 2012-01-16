@@ -1,0 +1,29 @@
+<%% title t("activerecord.models.<%= plural_name %>") %>
+
+<table>
+  <tr>
+  <%- for attribute in model_attributes -%>
+    <th><%%=t "activerecord.attributes.<%= singular_name %>.<%= attribute.name %>" %></th>
+  <%- end -%>
+  </tr>
+  <%% for <%= singular_name %> in @<%= plural_name %> %>
+    <tr>
+    <%- for attribute in model_attributes -%>
+      <td><%%=h <%= singular_name %>.<%= attribute.name %> %></td>
+    <%- end -%>
+    <%- if action? :show -%>
+      <td><%%= link_to t("view.show"), <%= singular_name %> %></td>
+    <%- end -%>
+    <%- if action? :edit -%>
+      <td><%%= link_to t("view.edit"), edit_<%= singular_name %>_path(<%= singular_name %>) %></td>
+    <%- end -%>
+    <%- if action? :destroy -%>
+      <td><%%= link_to t("view.destroy"), <%= singular_name %>, :confirm => t("view.are_you_sure"), :method => :delete %></td>
+    <%- end -%>
+    </tr>
+  <%% end %>
+</table>
+
+<%- if action? :new -%>
+<p><%%= link_to t("view.<%= singular_name %>.new"), new_<%= singular_name %>_path %></p>
+<%- end -%>

@@ -73,8 +73,23 @@ Feature: Nifty Scaffold Generator
     And I should successfully run "rails g nifty:scaffold Admin::User -f --namespace_model"
     Then I should successfully run "rake test"
 
-  Scenario: Given scaffold with a new and index action
+  Scenario: Generate scaffold with new and index actions
     Given a new Rails app
     When I run "rails g nifty:scaffold Project name:string index new"
     Then I should see "class Project" in file "app/models/project.rb"
     And I should see "<%= form_for @project do |f| %>" in file "app/views/projects/new.html.erb"
+
+  @localize
+  Scenario: Generate scaffold with localization support
+    Given a new Rails app
+    When I run "rails g nifty:scaffold User name:string --localize"
+    Then I should see "activerecord.models.users" in file "app/views/users/index.html.erb"
+    And I should see "activerecord.attributes.user.name" in file "app/views/users/index.html.erb"
+    And I should see "name" in file "config/locales/models/user/en.yml"
+    And I should see the following files
+    | config/locales/models/user/template.yml |
+    | config/locales/views/en.yml             |
+    | config/locales/views/template.yml       |
+    When I run "rails g nifty:layout -f"
+    And I run "rake db:migrate"
+    Then I should successfully run "rake test"
